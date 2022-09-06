@@ -1,5 +1,5 @@
 {
-  "name": "ruturajmaniyar/yii2-audit-log",
+  "name": "sukung34/yii2-audit-log",
   "description": "Yii2 audit record and database changes details ",
   "type": "yii2-extension",
   "keywords": [
@@ -17,6 +17,10 @@
     {
       "name": "Ruturaj Maniyar",
       "email": "ruturaj.maniyar@gmail.com"
+    },
+    {
+      "name": "Surachet Munchavanon",
+      "email": "sukung34@gmail.com"
     }
   ],
   "require": {
