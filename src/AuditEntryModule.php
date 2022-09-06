@@ -14,7 +14,7 @@ class AuditEntryModule extends Module
     /**
      * @var string Connection ID
      */
-    public $db;
+    public $db = 'db';
 
     /**
      * @inheritdoc
