@@ -1,7 +1,7 @@
 <?php
 
 namespace ruturajmaniyar\mod\audit\models;
-
+use ruturajmaniyar\mod\audit\AuditEntryModule;
 use Yii;
 
 /**
@@ -19,6 +19,21 @@ use Yii;
  */
 class AuditEntry extends \yii\db\ActiveRecord
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function getDb()
+    {
+        $module = AuditEntryModule::getInstance();
+        if (isset($module)) {
+            $db = Yii::$app->get($module->db);
+            if (isset($db)) {
+                return $db;
+            }
+        }
+        return parent::getDb();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -46,7 +61,7 @@ class AuditEntry extends \yii\db\ActiveRecord
     {
         return [
             'audit_entry_id' => Yii::t('app', 'ID'),
-            'audit_entry_timestamp' => Yii::t('app','Timestamp'),
+            'audit_entry_timestamp' => Yii::t('app', 'Timestamp'),
             'audit_entry_model_name' => Yii::t('app', 'Model Name'),
             'audit_entry_operation' => Yii::t('app', 'Action'),
             'audit_entry_field_name' => Yii::t('app', 'Updated Field Name'),
