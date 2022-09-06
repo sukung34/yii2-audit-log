@@ -1,6 +1,6 @@
 {
   "name": "sukung34/yii2-audit-log",
-  "description": "Yii2 audit record and database changes details ",
+  "description": "Fork of Yii2 audit record and database changes details",
   "type": "yii2-extension",
   "keywords": [
     "yii2",
