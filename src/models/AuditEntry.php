@@ -22,7 +22,7 @@ class AuditEntry extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function getDb()
+    public static function getDb()
     {
         $module = AuditEntryModule::getInstance();
         if (isset($module)) {
