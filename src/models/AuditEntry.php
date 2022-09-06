@@ -31,8 +31,6 @@ class AuditEntry extends \yii\db\ActiveRecord
                 return $db;
             }
         }
-        var_dump($module);
-        exit;
         return parent::getDb();
     }
 
