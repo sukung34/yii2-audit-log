@@ -94,7 +94,7 @@ class AuditEntryBehaviors extends Behavior
 
                     if (is_array($this->attributes)) {
                         foreach ($this->attributes as $ownerAttr => $auditAttr) {
-                            if (isset($this->owner->{$ownerAttr}) && isset($log->{$auditAttr})) {
+                            if (isset($this->owner->{$ownerAttr}) && $log->hasProperty($auditAttr)) {
                                 $log->{$auditAttr} = $this->owner->{$ownerAttr};
                             }
                         }
@@ -117,7 +117,7 @@ class AuditEntryBehaviors extends Behavior
 
                 if (is_array($this->attributes)) {
                     foreach ($this->attributes as $ownerAttr => $auditAttr) {
-                        if (isset($this->owner->{$ownerAttr}) && isset($log->{$auditAttr})) {
+                        if (isset($this->owner->{$ownerAttr}) && $log->hasProperty($auditAttr)) {
                             $log->{$auditAttr} = $this->owner->{$ownerAttr};
                         }
                     }
@@ -155,7 +155,7 @@ class AuditEntryBehaviors extends Behavior
         $log->audit_entry_ip = $userIpAddress;
         if (is_array($this->attributes)) {
             foreach ($this->attributes as $ownerAttr => $auditAttr) {
-                if (isset($this->owner->{$ownerAttr}) && isset($log->{$auditAttr})) {
+                if (isset($this->owner->{$ownerAttr}) && $log->hasProperty($auditAttr)) {
                     $log->{$auditAttr} = $this->owner->{$ownerAttr};
                 }
             }
