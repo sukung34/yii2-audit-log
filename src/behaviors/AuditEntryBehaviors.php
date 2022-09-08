@@ -21,6 +21,8 @@ class AuditEntryBehaviors extends Behavior
      */
     const NO_USER_ID = "NO_USER_ID";
 
+    public $attributes = [];
+
     /**
      * @param $class
      * @param $attribute
@@ -64,7 +66,6 @@ class AuditEntryBehaviors extends Behavior
         } else {
             $userId = self::NO_USER_ID;
         }
-
         $userIpAddress = Yii::$app->request->getUserIP();
 
         $newAttributes = $this->owner->getAttributes();
@@ -91,6 +92,14 @@ class AuditEntryBehaviors extends Behavior
                     $log->audit_entry_user_id = $userId;
                     $log->audit_entry_ip = $userIpAddress;
 
+                    if (is_array($this->attributes)) {
+                        foreach ($this->attributes as $ownerAttr => $auditAttr) {
+                            if (isset($this->owner->{$ownerAttr}) && isset($log->{$auditAttr})) {
+                                $log->{$auditAttr} = $this->owner->{$ownerAttr};
+                            }
+                        }
+                    }
+
                     $log->save(false);
                 }
             }
@@ -106,6 +115,14 @@ class AuditEntryBehaviors extends Behavior
                 $log->audit_entry_user_id = $userId;
                 $log->audit_entry_ip = $userIpAddress;
 
+                if (is_array($this->attributes)) {
+                    foreach ($this->attributes as $ownerAttr => $auditAttr) {
+                        if (isset($this->owner->{$ownerAttr}) && isset($log->{$auditAttr})) {
+                            $log->{$auditAttr} = $this->owner->{$ownerAttr};
+                        }
+                    }
+                }
+
                 $log->save();
             }
         }
@@ -119,14 +136,13 @@ class AuditEntryBehaviors extends Behavior
      */
     public function afterDelete()
     {
-
-        try {
+        $identity = Yii::$app->user->identity;
+        if (isset($identity)) {
             $userId = Yii::$app->user->identity->getId();
-            $userIpAddress = Yii::$app->request->getUserIP();
-
-        } catch (Exception $e) { //If we have no user object, this must be a command line program
+        } else {
             $userId = self::NO_USER_ID;
         }
+        $userIpAddress = Yii::$app->request->getUserIP();
 
         $log = new AuditEntry();
         $log->audit_entry_old_value = 'NA';
@@ -137,7 +153,13 @@ class AuditEntryBehaviors extends Behavior
         $log->audit_entry_timestamp = new Expression('unix_timestamp(NOW())');
         $log->audit_entry_user_id = $userId;
         $log->audit_entry_ip = $userIpAddress;
-
+        if (is_array($this->attributes)) {
+            foreach ($this->attributes as $ownerAttr => $auditAttr) {
+                if (isset($this->owner->{$ownerAttr}) && isset($log->{$auditAttr})) {
+                    $log->{$auditAttr} = $this->owner->{$ownerAttr};
+                }
+            }
+        }
         $log->save();
 
         return true;
